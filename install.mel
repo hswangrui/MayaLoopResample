@@ -1,0 +1,10 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+{
+    string $root = "";
+    string $selection[] = `fileDialog2 -fileMode 3 -caption "Choose the Loop Resample folder (containing install.py)" -dialogStyle 2`;
+    if (size($selection)) {
+        $root = substituteAllString($selection[0], "\\", "/");
+        string $escaped = substituteAllString($root, "'", "\\'");
+        python("import sys, imp; p=u'" + $escaped + "'; sys.path.insert(0,p) if p not in sys.path else None; imp.load_source('loop_resample_installer', p+'/install.py').install(p)");
+    }
+}

@@ -1,0 +1,3 @@
+# No pip dependencies.
+# Runtime: Autodesk Maya 2019 or 2020 (bundled Python 2.7, Maya API 2.0, PySide2).
+# Offline geometry tests also support Python 3.12.

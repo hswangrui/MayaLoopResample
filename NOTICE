@@ -1,0 +1,56 @@
+Loop Resample for Maya 0.2.2
+
+Version 0.2.1 fixes native-window mouse events being treated as outside
+clicks, which incorrectly cancelled Alt+mouse viewport navigation.
+Input ownership is now handled only on the QWidget dispatch stage.
+
+Based on Loop Resample for Blender 1.0.3 by YLIANG.
+Original project: https://github.com/YLIANG021/Loop-Resample
+Original license: GPL-3.0-or-later (blender_manifest.toml).
+
+This Maya adaptation is licensed under GPL-3.0-or-later.
+The centripetal Catmull-Rom, source-density/even sampling, Taubin smoothing,
+and monotone strip reconstruction follow the original project's design.
+Host integration, conservative topology/attribute transfer, Qt dialog,
+Maya undo command, installer and regression tests have been rewritten.
+This is an independent, partial port, not an official YLIANG release.
+It does not reproduce the original Blender planner and modal viewport UI
+exactly. There is no warranty of fitness for production assets.
+
+Maya 2019/2020 and their bundled APIs/Qt are runtime prerequisites supplied
+by Autodesk; they are not included in this distribution. No Autodesk SDK
+headers, libraries, or binaries are redistributed.
+
+Supported: simple open/closed edge paths, single-row triangle/quad strips,
+triangle fans, simple polygon caps, multi-path common delta, smoothing,
+even spacing, face-corner UV sets, face materials and hard edges.
+
+Unsupported inputs are rejected: construction history/deformers/skin,
+instances, referenced or locked meshes, downstream geometry connections,
+color sets, locked normals, crease weights, mesh blind data, component sets,
+branched selections and polygons with holes.
+UV/material/hard-edge boundaries are conservatively pinned. Reducing below
+the number of required anchors is rejected rather than silently losing them.
+Complex strip layouts may be rejected. There is no global surface collision
+detection, no per-frame local-patch acceleration, and no custom normal/skin/color
+interpolation. Vertex/face/UV IDs may change.
+Try on a saved duplicate; inspect the result before committing it to an asset.
+
+Version 0.2.2: a single Loop Resample menu item starts viewport interaction.
+The panel menu item and new shelf creation have been removed. Reinstallation
+removes only the legacy plugin-owned shelf buttons; other shelf contents stay.
+If the old dedicated shelf becomes empty, Maya asks whether to delete its tab.
+Wheel: segment delta; Shift+Wheel: smooth; Ctrl+Wheel: even; R: reset.
+Left click/Enter: commit once; right click/Esc: restore the original mesh.
+Alt+mouse navigation passes through to Maya. The viewport HUD is mouse-transparent.
+Changing tool/selection, leaving the viewport for other UI, switching apps,
+or saving/opening a scene cancels the preview. Other modeling hotkeys are blocked
+while the tool owns the viewport.
+Restart Maya after replacing files to avoid mixing cached Python module versions.
+
+The native space hotbox and main Edit Mesh menu include one Loop Resample
+viewport entry. Installation enables auto-load for this plugin only.
+No space hotkey, marking-menu slot, menu-set visibility, userSetup or Autodesk
+installation script is changed. If the Modeling/Edit Mesh row is hidden in
+your hotbox preferences, use Hotbox Controls to show Modeling menus yourself.
+Plugin unload removes only menu items tagged as owned by Loop Resample.
